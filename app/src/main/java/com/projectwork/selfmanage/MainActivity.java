@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tViewMain.setText(result);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -49,16 +50,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // получим идентификатор выбранного пункта меню
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        TextView infoTextView = (TextView) findViewById(R.id.textView);
 
-        return super.onOptionsItemSelected(item);
+        // Операции для выбранного пункта меню
+        switch (id) {
+            case R.id.action_settings:
+                tViewMain.setText("Вы выбрали настройки!");
+                return true;
+            case R.id.action_delete:
+                tViewMain.setText("Вы выбрали удаление!");
+                return true;
+            case R.id.action_color:
+                tViewMain.setText("Вы выбрали цвет!");
+                return true;
+            case R.id.action_help:
+                tViewMain.setText("Вы выбрали помощь!");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
