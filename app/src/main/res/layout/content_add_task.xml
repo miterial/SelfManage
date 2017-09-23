@@ -29,31 +29,44 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="TextView"
+            android:text="Название задачи"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="-62dp" />
 
         <EditText
-            android:id="@+id/activityName"
+            android:id="@+id/taskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="ActivityName">
+            android:text="TaskName">
 
             <requestFocus>
 
             </requestFocus>
         </EditText>
 
-
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/eTextDateTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="DateTime" />
+
+        <EditText
+            android:id="@+id/eTextDuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Duretion" />
+
+        <CheckBox
+            android:id="@+id/chBrepeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Повторение задания" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -35,7 +35,7 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener {
         saveBtn = (Button) findViewById(R.id.saveBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
 
-        eText = (EditText) findViewById(R.id.activityName);
+        eText = (EditText) findViewById(R.id.taskName);
 
         testTView = (TextView) findViewById(R.id.textView);
 

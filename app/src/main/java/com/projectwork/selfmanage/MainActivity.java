@@ -10,9 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView tViewMain;
+
+    ArrayList<Task> taskList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // получим идентификатор выбранного пункта меню
         int id = item.getItemId();
 
-        TextView infoTextView = (TextView) findViewById(R.id.textView);
-
         // Операции для выбранного пункта меню
         switch (id) {
             case R.id.action_settings:
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tViewMain.setText("Вы выбрали цвет!");
                 return true;
             case R.id.action_help:
-                tViewMain.setText("Вы выбрали помощь!");
+                tViewMain.setText("Вы выбрали статистику!");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
