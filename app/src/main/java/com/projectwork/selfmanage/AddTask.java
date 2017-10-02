@@ -33,14 +33,8 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener {
         });
 
         saveBtn = (Button) findViewById(R.id.saveBtn);
-        cancelBtn = (Button) findViewById(R.id.cancelBtn);
-
         eText = (EditText) findViewById(R.id.taskName);
-
-        testTView = (TextView) findViewById(R.id.textView);
-
         saveBtn.setOnClickListener(this);
-        cancelBtn.setOnClickListener(this);
     }
 
     @Override
@@ -50,9 +44,6 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener {
                 Intent intent = new Intent();
                 intent.putExtra("result", eText.getText().toString());
                 setResult(RESULT_OK, intent);
-                finish();
-                break;
-            case R.id.cancelBtn:
                 finish();
                 break;
         }
