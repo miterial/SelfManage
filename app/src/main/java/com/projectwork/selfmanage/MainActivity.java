@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    TextView tViewMain;
+    TextView tvTask1, tViewMain;
 
-    ArrayList<Task> taskList = new ArrayList<>();
+    ArrayList<Task> taskList = new ArrayList<Task>(64);     //64 задания max
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        tvTask1 = (TextView) findViewById(R.id.tvTask1);
         tViewMain = (TextView) findViewById(R.id.tViewMain);
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {return;}
         String result = data.getStringExtra("result");
-        tViewMain.setText(result);
+
+        String[] tokens = result.split("[,]");
+        taskList.add(new Task(tokens));     // Добавление задания в список
     }
 
 

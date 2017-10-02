@@ -60,7 +60,11 @@
             android:ems="10"
             android:hint="Продолжительность"
             android:inputType="textPersonName"
+<<<<<<< HEAD
             android:textColor="@android:color/background_dark" />
+=======
+            android:text="Duration" />
+>>>>>>> 86958c2097b0a16f0100846599da0c468b45d763
 
         <CheckBox
             android:id="@+id/chBrepeat"
@@ -69,6 +73,12 @@
             android:text="Повторение задания"
             android:textAlignment="viewStart"
             android:textSize="18sp" />
+
+        <CheckBox
+            android:id="@+id/chBtermless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Целый день" />
 
         <LinearLayout
             android:layout_width="match_parent"

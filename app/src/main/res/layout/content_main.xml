@@ -39,16 +39,22 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1">
 
-        <EditText
-            android:id="@+id/editText2"
+
+        <TextView
+            android:id="@+id/tvTask1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:layout_weight="3.55"
             android:ems="10"
             android:inputType="textMultiLine"
             android:textAppearance="@style/TextAppearance.AppCompat.Button"
             android:textColor="@android:color/background_dark"
             android:textSize="18sp" />
+=======
+            android:layout_weight="10"
+            android:text="TextView" />
+>>>>>>> 86958c2097b0a16f0100846599da0c468b45d763
     </LinearLayout>
 
 
