@@ -60,13 +60,19 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Duretion" />
+            android:text="Duration" />
 
         <CheckBox
             android:id="@+id/chBrepeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Повторение задания" />
+
+        <CheckBox
+            android:id="@+id/chBtermless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Целый день" />
 
         <LinearLayout
             android:layout_width="match_parent"
