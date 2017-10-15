@@ -35,20 +35,11 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener {
         });
 
         saveBtn = (Button) findViewById(R.id.saveBtn);
-<<<<<<< HEAD
-        eText = (EditText) findViewById(R.id.taskName);
-=======
-        cancelBtn = (Button) findViewById(R.id.cancelBtn);
-
         eTextName = (EditText) findViewById(R.id.taskName);
         eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
         chbRepeat = (CheckBox) findViewById(R.id.chBrepeat);
         chbTermless = (CheckBox)  findViewById(R.id.chBtermless);
-
-        //testTView = (TextView) findViewById(R.id.textView);
-
->>>>>>> 86958c2097b0a16f0100846599da0c468b45d763
         saveBtn.setOnClickListener(this);
     }
 

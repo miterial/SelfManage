@@ -60,11 +60,7 @@
             android:ems="10"
             android:hint="Продолжительность"
             android:inputType="textPersonName"
-<<<<<<< HEAD
             android:textColor="@android:color/background_dark" />
-=======
-            android:text="Duration" />
->>>>>>> 86958c2097b0a16f0100846599da0c468b45d763
 
         <CheckBox
             android:id="@+id/chBrepeat"
