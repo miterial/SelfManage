@@ -9,9 +9,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 
 public class AddTask extends AppCompatActivity implements View.OnClickListener {
-
+    int DIALOG_TIME = 1;
+    int myHour = 24;
+    int myMinute = 59;
     Button saveBtn, cancelBtn;
     EditText eTextName, eTextDateTime, eTextDuration;
     TextView testTView;
@@ -38,10 +44,30 @@ public class AddTask extends AppCompatActivity implements View.OnClickListener {
         eTextName = (EditText) findViewById(R.id.taskName);
         eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
-        chbRepeat = (CheckBox) findViewById(R.id.chBrepeat);
-        chbTermless = (CheckBox)  findViewById(R.id.chBtermless);
+        chbTermless = (CheckBox) findViewById(R.id.chBtermless);
         saveBtn.setOnClickListener(this);
+        eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
     }
+
+    public void setTime(View view) {
+        showDialog(DIALOG_TIME);
+    }
+
+    protected Dialog onCreateDialog(int id) {
+        if (id == DIALOG_TIME) {
+            TimePickerDialog tpd = new TimePickerDialog(this, myCallBack, myHour, myMinute, true);
+            return tpd;
+        }
+        return super.onCreateDialog(id);
+    }
+
+    OnTimeSetListener myCallBack = new OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            myHour = hourOfDay;
+            myMinute = minute;
+            eTextDateTime.setText(myHour + ":" + myMinute + " ");
+        }
+    };
 
     @Override
     public void onClick(View v) {

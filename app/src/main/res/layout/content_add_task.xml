@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,14 +44,32 @@
             </requestFocus>
         </EditText>
 
-        <EditText
-            android:id="@+id/eTextDateTime"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Выберите даду и время"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/background_dark" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/eTextDateTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="Выберите дату и время"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/background_dark" />
+
+            <ImageButton
+                android:id="@+id/buttonDateTime"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:onClick="setTime"
+                android:scaleType="fitCenter"
+                android:src="@drawable/name1" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/eTextDuration"
@@ -62,19 +80,115 @@
             android:inputType="textPersonName"
             android:textColor="@android:color/background_dark" />
 
-        <CheckBox
-            android:id="@+id/chBrepeat"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Повторение задания"
-            android:textAlignment="viewStart"
-            android:textSize="18sp" />
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/tButtonMonday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Пн"
+                android:textOn="Пн"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonTuesday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Вт"
+                android:textOn="Вт"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonWednesday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Ср"
+                android:textOn="Ср"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonThursday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Чт"
+                android:textOn="Чт"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonFriday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Пт"
+                android:textOn="Пт"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonSaturday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Сб"
+                android:textOn="Сб"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/tButtonSunday"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="false"
+                android:text="ToggleButton"
+                android:textAllCaps="false"
+                android:textColor="@drawable/toggle_color"
+                android:textOff="Вс"
+                android:textOn="Вс"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
         <CheckBox
             android:id="@+id/chBtermless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Целый день" />
+            android:text="Целый день"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
