@@ -69,7 +69,15 @@
                 android:onClick="setTime"
                 android:scaleType="fitCenter"
                 android:src="@drawable/name1" />
+
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/chBtermless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Целый день"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/eTextDuration"
@@ -77,8 +85,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Продолжительность"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/background_dark" />
+            android:inputType="time"
+            android:textColor="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,13 +191,6 @@
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/chBtermless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Целый день"
-            android:textSize="16sp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -203,8 +204,7 @@
                 android:id="@+id/saveBtn"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="59dp"
                 android:text="Сохранить" />
         </LinearLayout>
 
