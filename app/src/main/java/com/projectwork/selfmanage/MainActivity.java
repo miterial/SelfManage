@@ -31,9 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tvTask1 = (TextView) findViewById(R.id.tvTask1);
-        tViewMain = (TextView) findViewById(R.id.tViewMain);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
@@ -101,16 +98,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Операции для выбранного пункта меню
         switch (id) {
             case R.id.action_settings:
-                tViewMain.setText("Вы выбрали настройки!");
+                //tViewMain.setText("Вы выбрали настройки!");
                 return true;
             case R.id.action_delete:
-                tViewMain.setText("Вы выбрали удаление!");
+                //tViewMain.setText("Вы выбрали удаление!");
                 return true;
             case R.id.action_color:
-                tViewMain.setText("Вы выбрали цвет!");
+                //tViewMain.setText("Вы выбрали цвет!");
                 return true;
             case R.id.action_help:
-                tViewMain.setText("Вы выбрали статистику!");
+                //tViewMain.setText("Вы выбрали статистику!");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
