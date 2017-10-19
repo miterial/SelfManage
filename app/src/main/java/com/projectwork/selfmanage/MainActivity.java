@@ -10,13 +10,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     TextView tvTask1, tViewMain;
 
-    ArrayList<Task> taskList = new ArrayList<Task>(64);     //64 задания max
+    TaskListSerializable taskList;
+    private String dbname  = "dbsmanag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,25 +34,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvTask1 = (TextView) findViewById(R.id.tvTask1);
         tViewMain = (TextView) findViewById(R.id.tViewMain);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+
+        taskList = loadData(taskList);
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, AddTask.class);
+        Intent intent = new Intent(this, TaskActivity.class);
         startActivityForResult(intent, 1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {return;}
-        String result = data.getStringExtra("result");
-
-        String[] tokens = result.split("[,]");
-        taskList.add(new Task(tokens));     // Добавление задания в список
+        Task task = data.getParcelableExtra("result");
+        taskList.add(task);     // Добавление задания в список
+        saveData(taskList);
     }
 
+    private void saveData(TaskListSerializable taskList) {
+        FileOutputStream fos = null;
+        ObjectOutputStream out = null;
+        File file = null;
+        try {
+            file = new File(getApplicationContext().getFilesDir(), dbname);
+            fos = new FileOutputStream(file);
+            out = new ObjectOutputStream(fos);
+            out.writeObject(taskList);
+            out.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private TaskListSerializable loadData(TaskListSerializable taskList) {
+        TaskListSerializable tmptl = new TaskListSerializable();
+        FileInputStream fis = null;
+        ObjectInputStream in = null;
+        File file = null;
+        try {
+            file = new File(getApplicationContext().getFilesDir(), dbname);
+            fis = new FileInputStream(file);
+            in = new ObjectInputStream(fis);
+            tmptl = (TaskListSerializable) in.readObject();
+            in.close();
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return tmptl;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

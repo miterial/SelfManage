@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddTask"
+            android:name=".TaskActivity"
             android:label="@string/title_activity_new_task"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -28,5 +28,6 @@
                 android:value="com.projectwork.selfmanage.MainActivity" />
         </activity>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

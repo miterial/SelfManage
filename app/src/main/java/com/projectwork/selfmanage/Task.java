@@ -1,22 +1,31 @@
 package com.projectwork.selfmanage;
 
-/**
- * Created by Svetlana on 23.09.2017.
- */
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Task {
+import java.io.Serializable;
 
-    String name, dateStart, duration;
-    String repeat;          //Повторяемость (список дней)
-    boolean termless;   //Выбрано ли "каждый день" на экране выпбора времени
-    boolean checked;        //Отметка о выполнении
+public class Task implements Parcelable, Serializable {
 
-    public Task(String[] tokens) {
-        this.name = tokens[0];
-        this.dateStart = tokens[1];
-        this.duration = tokens[2];
-        this.repeat = tokens[3];
-        this.termless = Boolean.valueOf(tokens[4]);
+    private String name, dateStart, duration;
+    private String repeat;          //Повторяемость (список дней)
+    private int termless;   //Выбрано ли "каждый день" на экране выпбора времени
+    private boolean checked;        //Отметка о выполнении
+
+    public Task(String name, String dateStart, String duration, String repeat, String termless) {
+        this.name = name;
+        this.dateStart = dateStart;
+        this.duration = duration;
+        this.repeat = repeat;
+        this.termless = Integer.valueOf(termless);
+    }
+
+    public Task(Parcel in) {
+        this.name = in.readString();
+        this.dateStart = in.readString();
+        this.duration = in.readString();
+        this.repeat = in.readString();
+        this.termless = in.readInt();
     }
 
     public String getName() {
@@ -51,11 +60,9 @@ public class Task {
         this.repeat = repeat;
     }
 
-    public boolean isTermless() {
-        return termless;
-    }
+    public int isTermless() { return termless; }
 
-    public void setTermless(boolean termless) {
+    public void setTermless(int termless) {
         this.termless = termless;
     }
 
@@ -65,5 +72,30 @@ public class Task {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Task createFromParcel(Parcel in ) {
+            return new Task( in );
+        }
+
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    //Сохранение данных задания для передачи между активностями
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(dateStart);
+        dest.writeString(duration);
+        dest.writeString(repeat);
+        dest.writeInt(termless);
     }
 }
