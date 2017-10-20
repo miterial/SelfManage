@@ -67,8 +67,10 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:onClick="setTime"
-                android:scaleType="fitCenter"
-                android:src="@drawable/name1" />
+                android:scaleType="centerCrop"
+
+                android:src="@drawable/name1"
+                android:tint="@android:color/darker_gray" />
 
         </LinearLayout>
 

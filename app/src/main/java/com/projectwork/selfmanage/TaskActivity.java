@@ -1,5 +1,6 @@
 package com.projectwork.selfmanage;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -10,7 +11,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.Dialog;
@@ -24,9 +27,14 @@ import java.util.Date;
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     int DIALOG_TIME = 1;
-    int myHour = 24;
-    int myMinute = 59;
-    Button saveBtn, cancelBtn;
+    int DIALOG_DATE = 2;
+    int myHour = 12;
+    int myMinute = 00;
+    int myYear = 2017;
+    int myMonth = 01;
+    int myDay = 01;
+    Button saveBtn;
+    ImageButton buttonDateTime;
     EditText eTextName, eTextDateTime, eTextDuration;
     TextView testTView;
     CheckBox chbRepeat, chbTermless;
@@ -55,6 +63,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
         eTextDuration.addTextChangedListener(eTextDurationWatcher);
         chbTermless = (CheckBox) findViewById(R.id.chBtermless);
+        buttonDateTime = (ImageButton) findViewById(R.id.buttonDateTime);
         saveBtn.setOnClickListener(this);
         eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
     }
@@ -95,6 +104,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setTime(View view) {
         showDialog(DIALOG_TIME);
+        showDialog(DIALOG_DATE);
     }
 
     protected Dialog onCreateDialog(int id) {
@@ -102,6 +112,12 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             TimePickerDialog tpd = new TimePickerDialog(this, myCallBack, myHour, myMinute, true);
             return tpd;
         }
+
+        if (id == DIALOG_DATE) {
+            DatePickerDialog tpd = new DatePickerDialog(this, myCallBack1, myYear, myMonth, myDay);
+            return tpd;
+        }
+
         return super.onCreateDialog(id);
     }
 
@@ -109,7 +125,18 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             myHour = hourOfDay;
             myMinute = minute;
-            eTextDateTime.setText(myHour + ":" + myMinute + " ");
+            String str = eTextDateTime.getText().toString();
+            eTextDateTime.setText(str + myHour + ":" + myMinute + " ");
+        }
+    };
+
+    DatePickerDialog.OnDateSetListener myCallBack1 = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myYear = year;
+            myMonth = monthOfYear;
+            myDay = dayOfMonth;
+            eTextDateTime.setText(myDay + "/" + myMonth + "/" + myYear + " ");
         }
     };
 
