@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Task implements Parcelable, Serializable {
 
     private String name, dateStart, duration;
+    //TODO: парсинг repeat, превращение в дни
     private String repeat;          //Повторяемость (список дней)
     private int termless;   //Выбрано ли "каждый день" на экране выпбора времени
     private boolean checked;        //Отметка о выполнении
@@ -18,6 +19,7 @@ public class Task implements Parcelable, Serializable {
         this.duration = duration;
         this.repeat = repeat;
         this.termless = Integer.valueOf(termless);
+        this.checked = false;
     }
 
     public Task(Parcel in) {
@@ -26,6 +28,7 @@ public class Task implements Parcelable, Serializable {
         this.duration = in.readString();
         this.repeat = in.readString();
         this.termless = in.readInt();
+        this.checked = in.readString().equals("0") ? true : false;
     }
 
     public String getName() {
@@ -97,5 +100,8 @@ public class Task implements Parcelable, Serializable {
         dest.writeString(duration);
         dest.writeString(repeat);
         dest.writeInt(termless);
+
+        String ch = checked ? "0" : "1";
+        dest.writeString(ch);
     }
 }

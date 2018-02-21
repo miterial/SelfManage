@@ -14,4 +14,12 @@ public class TaskListSerializable implements Serializable {
     public void add(Task t) {
         taskList.add(t);
     }
+
+    public int size() {
+        return taskList.size();
+    }
+
+    public Task get(int pos) {
+        return taskList.get(pos);
+    }
 }

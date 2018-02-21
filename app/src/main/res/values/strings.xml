@@ -2,7 +2,7 @@
     <string name="app_name">SelfManage</string>
     <string name="title_activity_new_task">Новое задание</string>
     <string name="add_task">Добавить задание</string>
-    <string name="action_settings">Настрйоки</string>
+    <string name="action_settings">Настройки</string>
     <string name="action_delete">Удалить</string>
     <string name="action_color">Цвет</string>
     <string name="action_help">Справка</string>

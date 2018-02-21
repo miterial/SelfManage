@@ -30,13 +30,13 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     int DIALOG_DATE = 2;
     int myHour = 12;
     int myMinute = 00;
-    int myYear = 2017;
+    int myYear = 2018;
     int myMonth = 01;
     int myDay = 01;
     Button saveBtn;
     ImageButton buttonDateTime;
-    EditText eTextName, eTextDateTime, eTextDuration;
-    TextView testTView;
+    EditText eTextName, eTextDuration;
+    TextView tvDateTime;
     CheckBox chbRepeat, chbTermless;
     Task task;
 
@@ -59,13 +59,13 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
         saveBtn = (Button) findViewById(R.id.saveBtn);
         eTextName = (EditText) findViewById(R.id.taskName);
-        eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
+        tvDateTime = (TextView) findViewById(R.id.tvDateTime);
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
         eTextDuration.addTextChangedListener(eTextDurationWatcher);
         chbTermless = (CheckBox) findViewById(R.id.chBtermless);
+        //TODO: кнопки ежедневного повторения
         buttonDateTime = (ImageButton) findViewById(R.id.buttonDateTime);
         saveBtn.setOnClickListener(this);
-        eTextDateTime = (EditText) findViewById(R.id.eTextDateTime);
     }
 
     private TextWatcher eTextDurationWatcher = new TextWatcher() {
@@ -125,8 +125,8 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             myHour = hourOfDay;
             myMinute = minute;
-            String str = eTextDateTime.getText().toString();
-            eTextDateTime.setText(str + myHour + ":" + myMinute + " ");
+            String str = tvDateTime.getText().toString();
+            tvDateTime.setText(str + myHour + ":" + myMinute + " ");
         }
     };
 
@@ -136,7 +136,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             myYear = year;
             myMonth = monthOfYear;
             myDay = dayOfMonth;
-            eTextDateTime.setText(myDay + "/" + myMonth + "/" + myYear + " ");
+            tvDateTime.setText(myDay + "/" + myMonth + "/" + myYear + " ");
         }
     };
 
@@ -145,10 +145,16 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         String res = "";
         StringBuilder sb = new StringBuilder(100);
         switch (v.getId()) {
-            case R.id.saveBtn:
-                task = new Task(eTextName.getText().toString(), eTextDateTime.getText().toString(),
-                        eTextDuration.getText().toString(), chbRepeat.isChecked() ? "1" : "0",
-                        chbTermless.isChecked() ? "1" : "0");
+            case R.id.saveBtn: {
+                String name, datetime, duration, repeatdays, chbTerm;
+                name = eTextName.getText().toString();
+                datetime = tvDateTime.getText().toString();
+                duration = eTextDuration.getText().toString();
+                //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
+                repeatdays = "0000000";
+                chbTerm = chbTermless.isChecked() ? "1" : "0";
+
+                task = new Task(name, datetime, duration, repeatdays, chbTerm);
 
                 // Пересылка на главный экран
                 //TODO: Добавление данных в базу (сериализация)
@@ -156,7 +162,12 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("result", (Parcelable) task);      //Возврат названия задачи на главный экран
                 setResult(RESULT_OK, intent);
                 finish();
+            }
                 break;
         }
+    }
+
+    void inputError() {
+        //TODO: вывод предупреждающего сообщения
     }
 }

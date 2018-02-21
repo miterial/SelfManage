@@ -49,17 +49,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/eTextDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
                 android:layout_weight="1"
-                android:clickable="true"
-                android:ems="10"
-                android:enabled="false"
-                android:hint="Выберите дату и время"
-                android:inputType="textPersonName"
-                android:textColor="@android:color/background_dark" />
+                android:onClick="setTime"
+                android:gravity="center"
+                android:text="Выберите время начала"
+                />
 
             <ImageButton
                 android:id="@+id/buttonDateTime"
@@ -69,7 +67,7 @@
                 android:onClick="setTime"
                 android:scaleType="centerCrop"
 
-                android:src="@drawable/name1"
+                android:src="@drawable/calendar"
                 android:tint="@android:color/darker_gray" />
 
         </LinearLayout>
@@ -106,7 +104,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Пн"
                 android:textOn="Пн"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonTuesday"
@@ -119,7 +117,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Вт"
                 android:textOn="Вт"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonWednesday"
@@ -133,7 +131,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Ср"
                 android:textOn="Ср"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonThursday"
@@ -147,7 +145,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Чт"
                 android:textOn="Чт"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonFriday"
@@ -161,7 +159,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Пт"
                 android:textOn="Пт"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonSaturday"
@@ -175,7 +173,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Сб"
                 android:textOn="Сб"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ToggleButton
                 android:id="@+id/tButtonSunday"
@@ -189,7 +187,7 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Вс"
                 android:textOn="Вс"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
