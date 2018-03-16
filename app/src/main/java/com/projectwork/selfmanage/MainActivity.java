@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.projectwork.selfmanage.adapter.TaskListAdapter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskList.add(task);     // Добавление задания в список
         saveData(taskList);     //Сериализация задания
         //TODO: подгружать только последнее добавленное задание
+        //TODO: [2] сделать БД, а не сериализацию?
         loadData(taskList);
     }
 
