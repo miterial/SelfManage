@@ -1,10 +1,20 @@
-package com.projectwork.selfmanage;
+package com.projectwork.selfmanage.task;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *  Task class implements Patcelable and Serializable in order to write and read serialized tasks to/from file
+ */
+
+
+@Getter
+@Setter
 public class Task implements Parcelable, Serializable {
 
     private String name, dateStart, duration;
@@ -28,56 +38,11 @@ public class Task implements Parcelable, Serializable {
         this.duration = in.readString();
         this.repeat = in.readString();
         this.termless = in.readInt();
-        this.checked = in.readString().equals("0") ? true : false;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDateStart() {
-        return dateStart;
-    }
-
-    public void setDateStart(String dateStart) {
-        this.dateStart = dateStart;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getRepeat() {
-        return repeat;
-    }
-
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
-    }
-
-    public int isTermless() { return termless; }
-
-    public void setTermless(int termless) {
-        this.termless = termless;
-    }
-
-    public boolean isChecked() {
-        return checked;
-    }
-
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+        this.checked = in.readString().equals("0");
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+
         public Task createFromParcel(Parcel in ) {
             return new Task( in );
         }
@@ -85,6 +50,7 @@ public class Task implements Parcelable, Serializable {
         public Task[] newArray(int size) {
             return new Task[size];
         }
+
     };
 
     @Override
@@ -92,7 +58,7 @@ public class Task implements Parcelable, Serializable {
         return 0;
     }
 
-    //Сохранение данных задания для передачи между активностями
+    // Saving task data to pass between activities
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);

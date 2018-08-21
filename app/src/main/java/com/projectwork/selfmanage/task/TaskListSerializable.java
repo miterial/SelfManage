@@ -1,4 +1,6 @@
-package com.projectwork.selfmanage;
+package com.projectwork.selfmanage.task;
+
+import com.projectwork.selfmanage.task.Task;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -20,6 +20,8 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 
+import com.projectwork.selfmanage.task.Task;
+
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     int DIALOG_TIME = 1;
@@ -59,7 +61,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
         eTextDuration.addTextChangedListener(eTextDurationWatcher);
         chbTermless = (CheckBox) findViewById(R.id.chBtermless);
-        //TODO: кнопки ежедневного повторения
+        //TODO: обработчики кнопок ежедневного повторения
         buttonDateTime = (ImageButton) findViewById(R.id.buttonDateTime);
         saveBtn.setOnClickListener(this);
     }
@@ -82,7 +84,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if (!isValid) {
-                eTextDuration.setError("Введите время в формате: HH");
+                eTextDuration.setError("Введите время в формате: ЧЧ");
             } else {
                 eTextDuration.setError(null);
             }
@@ -132,15 +134,18 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             myYear = year;
             myMonth = monthOfYear;
             myDay = dayOfMonth;
-            tvDateTime.setText(myDay + "/" + myMonth + "/" + myYear + " ");
+            tvDateTime.setText(myDay + "." + myMonth + "." + myYear + " ");
         }
     };
 
     @Override
     public void onClick(View v) {
+
         String res = "";
         StringBuilder sb = new StringBuilder(100);
+
         switch (v.getId()) {
+
             case R.id.saveBtn: {
                 String name, datetime, duration, repeatdays, chbTerm;
                 name = eTextName.getText().toString();
@@ -153,7 +158,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                 task = new Task(name, datetime, duration, repeatdays, chbTerm);
 
                 // Пересылка на главный экран
-                //TODO: Добавление данных в базу (сериализация)
+                //TODO: Сохранение в singlton-БД вместо возврата intent
                 Intent intent = new Intent();
                 intent.putExtra("result", (Parcelable) task);      //Возврат названия задачи на главный экран
                 setResult(RESULT_OK, intent);

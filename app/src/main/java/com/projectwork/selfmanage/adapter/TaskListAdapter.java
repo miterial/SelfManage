@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.projectwork.selfmanage.R;
-import com.projectwork.selfmanage.Task;
-import com.projectwork.selfmanage.TaskListSerializable;
+import com.projectwork.selfmanage.task.Task;
+import com.projectwork.selfmanage.task.TaskListSerializable;
 
 public class TaskListAdapter extends BaseAdapter {
     Context ctx;
@@ -49,12 +49,12 @@ public class TaskListAdapter extends BaseAdapter {
             view = lInflater.inflate(R.layout.main_content_item, parent, false);
         }
 
-        Task p = getTask(position);
+        Task task = getTask(position);
 
         // заполняем View в пункте списка данными из задания: название, продолжительность, дни повторения, отметка о выполнении
-        ((TextView) view.findViewById(R.id.tvDescr)).setText(p.getName());
-        ((TextView) view.findViewById(R.id.tvRepeat)).setText(p.getDuration());
-        ((TextView) view.findViewById(R.id.tvRepeat)).setText(p.getRepeat());
+        ((TextView) view.findViewById(R.id.tvDescr)).setText(task.getName());
+        ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getDuration());
+        ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getRepeat());
         //((ImageView) view.findViewById(R.id.ivImage)).setImageResource(p.isChecked());
 
         /*CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbBox);
@@ -67,7 +67,7 @@ public class TaskListAdapter extends BaseAdapter {
         return view;
     }
 
-    Task getTask(int position) {
+    private Task getTask(int position) {
         return ((Task) getItem(position));
     }
 

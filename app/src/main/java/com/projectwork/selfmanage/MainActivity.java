@@ -12,6 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.projectwork.selfmanage.adapter.TaskListAdapter;
+import com.projectwork.selfmanage.task.Task;
+import com.projectwork.selfmanage.task.TaskListSerializable;
+import com.projectwork.selfmanage.utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,10 +25,9 @@ import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvTask1, tViewMain;
-
     TaskListSerializable taskList;
     TaskListAdapter tlAdapter;
+    ListView lvMain;
     private String dbname = "dbsmanag";
 
     @Override
@@ -38,19 +40,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        taskList = loadData(taskList);
+        File f = new File(getApplicationContext().getFilesDir(), dbname);
+        taskList = Utils.loadData(f);
         tlAdapter = new TaskListAdapter(this, taskList);
 
-        ListView lvMain = (ListView) findViewById(R.id.lvMain);
+        lvMain = (ListView) findViewById(R.id.lvMain);
         lvMain.setAdapter(tlAdapter);
     }
 
+    /**
+     * Add new task
+     *
+     * @param v add button view
+     */
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, TaskActivity.class);
         startActivityForResult(intent, 1);
     }
 
+    /**
+     * Save new task to list and serialize new taskList
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data newly created task
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {
@@ -58,16 +73,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Task task = data.getParcelableExtra("result");
         taskList.add(task);     // Добавление задания в список
-        saveData(taskList);     //Сериализация задания
+
+        File f = new File(getApplicationContext().getFilesDir(), dbname);
+        Utils.saveData(taskList, f);     //Сериализация задания
+
         //TODO: подгружать только последнее добавленное задание
         //TODO: [2] сделать БД, а не сериализацию?
-        loadData(taskList);
+        tlAdapter.notifyDataSetChanged();
     }
 
-
+    /**
+     * Create options menu on top of the screen
+     *
+     * @param menu
+     * @return state of creation ???
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -81,51 +103,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.action_settings:
                 //tViewMain.setText("Вы выбрали настройки!");
-                return true;
             case R.id.action_delete:
                 //tViewMain.setText("Вы выбрали удаление!");
-                return true;
             case R.id.action_color:
                 //tViewMain.setText("Вы выбрали цвет!");
-                return true;
             case R.id.action_help:
                 //tViewMain.setText("Вы выбрали статистику!");
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void saveData(TaskListSerializable taskList) {
-        FileOutputStream fos = null;
-        ObjectOutputStream out = null;
-        File file = null;
-        try {
-            file = new File(getApplicationContext().getFilesDir(), dbname);
-            fos = new FileOutputStream(file);
-            out = new ObjectOutputStream(fos);
-            out.writeObject(taskList);
-            out.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private TaskListSerializable loadData(TaskListSerializable taskList) {
-        TaskListSerializable tmptl = new TaskListSerializable();
-        FileInputStream fis = null;
-        ObjectInputStream in = null;
-        File file = null;
-        try {
-            file = new File(getApplicationContext().getFilesDir(), dbname);
-            fis = new FileInputStream(file);
-            in = new ObjectInputStream(fis);
-            tmptl = (TaskListSerializable) in.readObject();
-            in.close();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
-        return tmptl;
+        //return true;
     }
 
 }
