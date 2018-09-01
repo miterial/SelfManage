@@ -77,8 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         File f = new File(getApplicationContext().getFilesDir(), dbname);
         Utils.saveData(taskList, f);     //Сериализация задания
 
-        //TODO: подгружать только последнее добавленное задание
-        //TODO: [2] сделать БД, а не сериализацию?
+        //TODO: [2] сделать БД, а не сериализацию? (выгодно ли в размерах)
         tlAdapter.notifyDataSetChanged();
     }
 

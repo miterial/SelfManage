@@ -1,5 +1,6 @@
 package com.projectwork.selfmanage;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +15,14 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.projectwork.selfmanage.task.Task;
 
@@ -59,43 +63,73 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         eTextName = (EditText) findViewById(R.id.taskName);
         tvDateTime = (TextView) findViewById(R.id.tvDateTime);
         eTextDuration = (EditText) findViewById(R.id.eTextDuration);
+
         eTextDuration.addTextChangedListener(eTextDurationWatcher);
+
         chbTermless = (CheckBox) findViewById(R.id.chBtermless);
-        //TODO: обработчики кнопок ежедневного повторения
         buttonDateTime = (ImageButton) findViewById(R.id.buttonDateTime);
         saveBtn.setOnClickListener(this);
+
+        ((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
+
+    }
+
+    static final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
+            for (int j = 0; j < radioGroup.getChildCount(); j++) {
+                final ToggleButton view = (ToggleButton) radioGroup.getChildAt(j);
+                view.setChecked(view.getId() == i);
+            }
+        }
+    };
+
+    public void onToggle(View view) {
+        ((RadioGroup)view.getParent()).check(view.getId());
+
+        Toast.makeText(this,"checked", Toast.LENGTH_SHORT).show();
     }
 
     private TextWatcher eTextDurationWatcher = new TextWatcher() {
+        private boolean isRunning = false;
+        private boolean isDeleting = false;
+        private String mask = "##:##";
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            String working = s.toString();
-            boolean isValid = true;
-            if (working.length() == 2 && before == 0) {
-                if (Integer.parseInt(working) < 0 || Integer.parseInt(working) > 24) {
-                    isValid = false;
-                } else {
-                    working += " ч.";
-                    eTextDuration.setText(working);
-                    eTextDuration.setSelection(working.length());
+        public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+            isDeleting = count > after;
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            if (isRunning || isDeleting) {
+                return;
+            }
+            isRunning = true;
+
+            int editableLength = editable.length();
+            if (editableLength < mask.length()) {
+                if (mask.charAt(editableLength) != '#') {
+                    editable.append(mask.charAt(editableLength));
+                } else if (mask.charAt(editableLength-1) == '#') {
+
+                    editable.insert(editableLength-1, mask, editableLength-1, editableLength);
                 }
-            } else if (working.length() != 2) {
-                isValid = false;
+            }
+            else {
+
+                String tokens[] = editable.toString().split("[:]");
+                if (Integer.parseInt(tokens[0]) < 0 || Integer.parseInt(tokens[0]) > 23
+                        || Integer.parseInt(tokens[1]) < 0 || Integer.parseInt(tokens[1]) > 59) {
+                    eTextDuration.setError("Время введено некорректно!"); //TODO: переместить в класс
+                }
             }
 
-            if (!isValid) {
-                eTextDuration.setError("Введите время в формате: ЧЧ");
-            } else {
-                eTextDuration.setError(null);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            isRunning = false;
         }
 
     };
@@ -107,19 +141,21 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     protected Dialog onCreateDialog(int id) {
         if (id == DIALOG_TIME) {
-            TimePickerDialog tpd = new TimePickerDialog(this, myCallBack, myHour, myMinute, true);
+            TimePickerDialog tpd = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                    timeCallback, myHour, myMinute, true);
             return tpd;
         }
 
         if (id == DIALOG_DATE) {
-            DatePickerDialog tpd = new DatePickerDialog(this, myCallBack1, myYear, myMonth, myDay);
+            DatePickerDialog tpd = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                    dateCallback, myYear, myMonth, myDay);
             return tpd;
         }
 
         return super.onCreateDialog(id);
     }
 
-    OnTimeSetListener myCallBack = new OnTimeSetListener() {
+    OnTimeSetListener timeCallback = new OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             myHour = hourOfDay;
             myMinute = minute;
@@ -128,7 +164,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    DatePickerDialog.OnDateSetListener myCallBack1 = new DatePickerDialog.OnDateSetListener() {
+    DatePickerDialog.OnDateSetListener dateCallback = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             myYear = year;
@@ -151,7 +187,9 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                 name = eTextName.getText().toString();
                 datetime = tvDateTime.getText().toString();
                 duration = eTextDuration.getText().toString();
+
                 //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
+
                 repeatdays = "0000000";
                 chbTerm = chbTermless.isChecked() ? "1" : "0";
 
