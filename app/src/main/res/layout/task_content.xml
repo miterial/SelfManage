@@ -69,33 +69,58 @@
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/chBtermless"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Целый день"
-            android:textSize="16sp" />
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Указать длительность:"
+                android:textAlignment="center" />
+
+            <RadioGroup
+                android:id="@+id/rGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioButton
+                    android:id="@+id/rBTermless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="43dp"
+                    android:layout_weight="1"
+                    android:text="Целый день"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rBChooseTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:text="Выбрать время" />
+
+            </RadioGroup>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/eTextDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Продолжительность"
+            android:hint="Введите длительность в формате чч:мм"
             android:inputType="time"
             android:maxLength="5"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:visibility="gone" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <RadioGroup android:id="@+id/toggleGroup"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                >
 
             <ToggleButton
                 android:id="@+id/tButtonMonday"
@@ -108,7 +133,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Пн"
                 android:textOn="Пн"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonTuesday"
@@ -121,7 +147,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Вт"
                 android:textOn="Вт"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonWednesday"
@@ -135,7 +162,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Ср"
                 android:textOn="Ср"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonThursday"
@@ -149,7 +177,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Чт"
                 android:textOn="Чт"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonFriday"
@@ -163,7 +192,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Пт"
                 android:textOn="Пт"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonSaturday"
@@ -177,7 +207,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Сб"
                 android:textOn="Сб"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
 
             <ToggleButton
                 android:id="@+id/tButtonSunday"
@@ -191,10 +222,8 @@
                 android:textColor="@drawable/toggle_color"
                 android:textOff="Вс"
                 android:textOn="Вс"
-                android:textSize="16sp" />
-
-            </RadioGroup>
-
+                android:textSize="16sp"
+                android:onClick="onToggle"/>
         </LinearLayout>
 
         <LinearLayout

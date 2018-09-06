@@ -1,6 +1,5 @@
 package com.projectwork.selfmanage;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +10,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -22,31 +21,29 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.projectwork.selfmanage.task.Task;
+
+import java.util.Calendar;
 
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     int DIALOG_TIME = 1;
     int DIALOG_DATE = 2;
-    int myHour = 12;
-    int myMinute = 00;
-    int myYear = 2018;
-    int myMonth = 01;
-    int myDay = 01;
+    String[] repeat = {"0", "0", "0", "0", "0", "0", "0"};
+
     Button saveBtn;
     ImageButton buttonDateTime;
     EditText eTextName, eTextDuration;
     TextView tvDateTime;
-    CheckBox chbRepeat, chbTermless;
+    RadioGroup rGroup;
     Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -59,34 +56,37 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        saveBtn = (Button) findViewById(R.id.saveBtn);
-        eTextName = (EditText) findViewById(R.id.taskName);
-        tvDateTime = (TextView) findViewById(R.id.tvDateTime);
-        eTextDuration = (EditText) findViewById(R.id.eTextDuration);
+        saveBtn = findViewById(R.id.saveBtn);
+        eTextName = findViewById(R.id.taskName);
+        tvDateTime = findViewById(R.id.tvDateTime);
 
+        rGroup = findViewById(R.id.rGroup);
+        rGroup.setOnCheckedChangeListener(rGroupOnCheckWatcher);
+
+        eTextDuration = findViewById(R.id.eTextDuration);
         eTextDuration.addTextChangedListener(eTextDurationWatcher);
 
-        chbTermless = (CheckBox) findViewById(R.id.chBtermless);
-        buttonDateTime = (ImageButton) findViewById(R.id.buttonDateTime);
-        saveBtn.setOnClickListener(this);
 
-        ((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
+        buttonDateTime = findViewById(R.id.buttonDateTime);
+        saveBtn.setOnClickListener(this);
 
     }
 
-    static final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {
+
+    RadioGroup.OnCheckedChangeListener rGroupOnCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
         @Override
-        public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
-            for (int j = 0; j < radioGroup.getChildCount(); j++) {
-                final ToggleButton view = (ToggleButton) radioGroup.getChildAt(j);
-                view.setChecked(view.getId() == i);
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == 0) {
+                eTextDuration.setVisibility(View.GONE);
+            }
+            else {
+                eTextDuration.setVisibility(View.VISIBLE);
             }
         }
     };
 
     public void onToggle(View view) {
-        ((RadioGroup)view.getParent()).check(view.getId());
-
+        repeat[0] = "1";
         Toast.makeText(this,"checked", Toast.LENGTH_SHORT).show();
     }
 
@@ -140,37 +140,39 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected Dialog onCreateDialog(int id) {
-        if (id == DIALOG_TIME) {
-            TimePickerDialog tpd = new TimePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
-                    timeCallback, myHour, myMinute, true);
+        // TODO: обработать кнопку "отмена"
+        // TODO: alwaysnull в дате и времени
+
+        final Calendar calendar = Calendar.getInstance();
+
+
+        if (id == DIALOG_DATE) {
+            DatePickerDialog tpd = new DatePickerDialog(this, R.style.Theme_Design_Light,
+                    dateCallback, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             return tpd;
         }
 
-        if (id == DIALOG_DATE) {
-            DatePickerDialog tpd = new DatePickerDialog(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
-                    dateCallback, myYear, myMonth, myDay);
+        if (id == DIALOG_TIME) {
+            TimePickerDialog tpd = new TimePickerDialog(this, timeCallback,
+                    calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             return tpd;
         }
 
         return super.onCreateDialog(id);
     }
 
-    OnTimeSetListener timeCallback = new OnTimeSetListener() {
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            myHour = hourOfDay;
-            myMinute = minute;
-            String str = tvDateTime.getText().toString();
-            tvDateTime.setText(str + myHour + ":" + myMinute + " ");
-        }
-    };
-
     DatePickerDialog.OnDateSetListener dateCallback = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            myYear = year;
-            myMonth = monthOfYear;
-            myDay = dayOfMonth;
-            tvDateTime.setText(myDay + "." + myMonth + "." + myYear + " ");
+            tvDateTime.setText(String.format("%02d.%02d.%02d", year, monthOfYear, dayOfMonth));
+        }
+    };
+
+    OnTimeSetListener timeCallback = new OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+            String str = tvDateTime.getText().toString();
+            tvDateTime.append(" " + String.format("%02d:%02d", hourOfDay, minute));
         }
     };
 
@@ -190,8 +192,8 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
                 //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
 
-                repeatdays = "0000000";
-                chbTerm = chbTermless.isChecked() ? "1" : "0";
+                repeatdays = repeat.toString();
+                chbTerm = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "0" : "1";
 
                 task = new Task(name, datetime, duration, repeatdays, chbTerm);
 
