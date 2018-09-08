@@ -24,7 +24,11 @@ import android.widget.Toast;
 
 import com.projectwork.selfmanage.task.Task;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,7 +92,6 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     public void onToggle(View view) {
         // TODO: отслеживать повторное нажатие view.getId()
         repeat[0] = "1";
-        Toast.makeText(this,"checked", Toast.LENGTH_SHORT).show();
     }
 
     private TextWatcher eTextDurationWatcher = new TextWatcher() {
@@ -146,7 +149,6 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
         final Calendar calendar = Calendar.getInstance();
 
-
         if (id == DIALOG_DATE) {
             DatePickerDialog tpd = new DatePickerDialog(this, R.style.Theme_Design_Light,
                     dateCallback, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -165,14 +167,20 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     DatePickerDialog.OnDateSetListener dateCallback = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            tvDateTime.setText(String.format("%02d.%02d.%02d", year, monthOfYear, dayOfMonth));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(dayOfMonth, monthOfYear);
+            Date dateObj = calendar.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("d MMM");
+            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+            String date = sdf.format(dateObj);
+            tvDateTime.setText(date);
         }
     };
 
     OnTimeSetListener timeCallback = new OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-            String str = tvDateTime.getText().toString();
             tvDateTime.append(" " + String.format("%02d:%02d", hourOfDay, minute));
         }
     };
@@ -183,19 +191,21 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.saveBtn: {
-                String name, datetime, duration, chbTerm;
-                name = eTextName.getText().toString();
-                datetime = tvDateTime.getText().toString();
-                duration = eTextDuration.getText().toString();
+                String termless;
+                String duration = null;
 
-                //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
+                String name = eTextName.getText().toString();
+                String datetime = tvDateTime.getText().toString();
 
-                chbTerm = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "0" : "1";
+                termless = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "1" : "0"; // 0 - нет, 1 - да
+                if(termless.equals("0")) {
+                    duration = eTextDuration.getText().toString();
+                }
 
-                task = new Task(name, datetime, duration, repeat, chbTerm);
+                task = new Task(name, datetime, duration, repeat, termless);
+
 
                 // Пересылка на главный экран
-                //TODO: Сохранение в singlton-БД вместо возврата intent
                 Intent intent = new Intent();
                 intent.putExtra("result", (Parcelable) task);      //Возврат названия задачи на главный экран
                 setResult(RESULT_OK, intent);
@@ -205,7 +215,4 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    void inputError() {
-        //TODO: вывод предупреждающего сообщения
-    }
 }
