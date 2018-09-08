@@ -76,7 +76,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     RadioGroup.OnCheckedChangeListener rGroupOnCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId == 0) {
+            if (checkedId == R.id.rBTermless) {
                 eTextDuration.setVisibility(View.GONE);
             }
             else {
@@ -86,6 +86,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     public void onToggle(View view) {
+        // TODO: отслеживать повторное нажатие view.getId()
         repeat[0] = "1";
         Toast.makeText(this,"checked", Toast.LENGTH_SHORT).show();
     }
@@ -179,23 +180,19 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        String res = "";
-        StringBuilder sb = new StringBuilder(100);
-
         switch (v.getId()) {
 
             case R.id.saveBtn: {
-                String name, datetime, duration, repeatdays, chbTerm;
+                String name, datetime, duration, chbTerm;
                 name = eTextName.getText().toString();
                 datetime = tvDateTime.getText().toString();
                 duration = eTextDuration.getText().toString();
 
                 //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
 
-                repeatdays = repeat.toString();
                 chbTerm = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "0" : "1";
 
-                task = new Task(name, datetime, duration, repeatdays, chbTerm);
+                task = new Task(name, datetime, duration, repeat, chbTerm);
 
                 // Пересылка на главный экран
                 //TODO: Сохранение в singlton-БД вместо возврата intent
