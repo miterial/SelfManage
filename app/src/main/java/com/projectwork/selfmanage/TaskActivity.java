@@ -185,12 +185,14 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    // TODO: назначить onClickListener нормально
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
 
             case R.id.saveBtn: {
+
                 String termless;
                 String duration = null;
 
@@ -214,5 +216,4 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
 }

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.projectwork.selfmanage.adapter.TaskListAdapter;
 import com.projectwork.selfmanage.task.Task;
@@ -17,11 +16,6 @@ import com.projectwork.selfmanage.task.TaskListSerializable;
 import com.projectwork.selfmanage.utils.Utils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskList.add(task);     // Добавление задания в список
 
         File f = new File(getApplicationContext().getFilesDir(), dbname);
-        Utils.saveData(taskList, f);     //Сериализация задания
+        Utils.saveTaskList(taskList, f);     //Сериализация задания
 
         //TODO: [2] сделать БД, а не сериализацию? (выгодно ли в размерах)
         tlAdapter.notifyDataSetChanged();
