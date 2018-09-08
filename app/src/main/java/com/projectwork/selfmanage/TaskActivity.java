@@ -76,7 +76,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     RadioGroup.OnCheckedChangeListener rGroupOnCheckWatcher = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if (checkedId == 0) {
+            if (checkedId == R.id.rBTermless) {
                 eTextDuration.setVisibility(View.GONE);
             }
             else {
@@ -176,6 +176,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    // TODO: назначить onClickListener нормально
     @Override
     public void onClick(View v) {
 
@@ -185,20 +186,21 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.saveBtn: {
-                String name, datetime, duration, repeatdays, chbTerm;
-                name = eTextName.getText().toString();
-                datetime = tvDateTime.getText().toString();
-                duration = eTextDuration.getText().toString();
 
-                //TODO: назначать 0 или 1 в зависимости от того, нажата кнопка соответствующего дня или нет
+                String termless;
+                String duration = null;
 
-                repeatdays = repeat.toString();
-                chbTerm = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "0" : "1";
+                String name = eTextName.getText().toString();
+                String datetime = tvDateTime.getText().toString();
 
-                task = new Task(name, datetime, duration, repeatdays, chbTerm);
+                termless = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "1" : "0"; // 0 - нет, 1 - да
+                if(termless.equals("0")) {
+                    duration = eTextDuration.getText().toString();
+                }
+
+                task = new Task(name, datetime, duration, repeat, termless);
 
                 // Пересылка на главный экран
-                //TODO: Сохранение в singlton-БД вместо возврата intent
                 Intent intent = new Intent();
                 intent.putExtra("result", (Parcelable) task);      //Возврат названия задачи на главный экран
                 setResult(RESULT_OK, intent);
@@ -206,9 +208,5 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
             }
                 break;
         }
-    }
-
-    void inputError() {
-        //TODO: вывод предупреждающего сообщения
     }
 }

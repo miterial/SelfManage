@@ -53,8 +53,8 @@ public class TaskListAdapter extends BaseAdapter {
 
         // заполняем View в пункте списка данными из задания: название, продолжительность, дни повторения, отметка о выполнении
         ((TextView) view.findViewById(R.id.tvDescr)).setText(task.getName());
-        ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getDuration());
-        ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getRepeat());
+        ((TextView) view.findViewById(R.id.eTextDuration)).setText(task.getDuration());
+        //((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getRepeat());
         //((ImageView) view.findViewById(R.id.ivImage)).setImageResource(p.isChecked());
 
         /*CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbBox);

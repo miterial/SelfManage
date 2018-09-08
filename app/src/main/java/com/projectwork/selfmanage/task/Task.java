@@ -19,26 +19,26 @@ public class Task implements Parcelable, Serializable {
 
     private String name, dateStart, duration;
     //TODO: парсинг repeat, превращение в дни
-    private String repeat;          //Повторяемость (список дней)
+    private String[] repeat;          //Повторяемость (список дней)
     private int termless;   //Выбрано ли "каждый день" на экране выпбора времени
-    private boolean checked;        //Отметка о выполнении
+    private boolean finished;        //Отметка о выполнении
 
-    public Task(String name, String dateStart, String duration, String repeat, String termless) {
+    public Task(String name, String dateStart, String duration, String[] repeat, String termless) {
         this.name = name;
         this.dateStart = dateStart;
-        this.duration = duration;
+        this.duration = (duration == null) ? "Весь день" : duration;
         this.repeat = repeat;
         this.termless = Integer.valueOf(termless);
-        this.checked = false;
+        this.finished = false;
     }
 
     public Task(Parcel in) {
         this.name = in.readString();
         this.dateStart = in.readString();
         this.duration = in.readString();
-        this.repeat = in.readString();
+        this.repeat = in.createStringArray();
         this.termless = in.readInt();
-        this.checked = in.readString().equals("0");
+        this.finished = in.readString().equals("0");
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -53,6 +53,10 @@ public class Task implements Parcelable, Serializable {
 
     };
 
+    public Task() {
+
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -64,10 +68,8 @@ public class Task implements Parcelable, Serializable {
         dest.writeString(name);
         dest.writeString(dateStart);
         dest.writeString(duration);
-        dest.writeString(repeat);
+        dest.writeStringArray(repeat);
         dest.writeInt(termless);
-
-        String ch = checked ? "0" : "1";
-        dest.writeString(ch);
+        dest.writeString(finished ? "0" : "1");
     }
 }
