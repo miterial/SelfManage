@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskList.add(task);     // Добавление задания в список
 
         File f = new File(getApplicationContext().getFilesDir(), dbname);
-        Utils.saveTaskList(taskList, f);     //Сериализация задания
+        Utils.saveData(taskList, f);     //Сериализация задания
 
         //TODO: [2] сделать БД, а не сериализацию? (выгодно ли в размерах)
         tlAdapter.notifyDataSetChanged();

@@ -55,7 +55,7 @@ public class TaskListAdapter extends BaseAdapter {
         ((TextView) view.findViewById(R.id.tvDescr)).setText(task.getName());
         ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getDuration());
         ((TextView) view.findViewById(R.id.tvTime)).setText(task.getDateStart());
-        //((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getRepeat().toString());
+        ((TextView) view.findViewById(R.id.tvRepeat)).setText(task.getRepeat());
         //((ImageView) view.findViewById(R.id.ivImage)).setImageResource(p.isChecked());
 
         /*CheckBox cbBuy = (CheckBox) view.findViewById(R.id.cbBox);

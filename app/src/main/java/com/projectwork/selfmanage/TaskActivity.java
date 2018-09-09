@@ -21,27 +21,29 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.projectwork.selfmanage.task.Task;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     int DIALOG_TIME = 1;
     int DIALOG_DATE = 2;
-    String[] repeat = {"0", "0", "0", "0", "0", "0", "0"};
+    List<String> repeat;
 
     Button saveBtn;
     ImageButton buttonDateTime;
     EditText eTextName, eTextDuration;
     TextView tvDateTime;
     RadioGroup rGroup;
-    Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         eTextName = findViewById(R.id.taskName);
         tvDateTime = findViewById(R.id.tvDateTime);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("d MMM HH:mm");
+        tvDateTime.setText(sdf.format(new Date()));
+
         rGroup = findViewById(R.id.rGroup);
         rGroup.setOnCheckedChangeListener(rGroupOnCheckWatcher);
 
@@ -73,6 +78,8 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonDateTime = findViewById(R.id.buttonDateTime);
         saveBtn.setOnClickListener(this);
+
+        repeat = new ArrayList<>();
 
     }
 
@@ -91,7 +98,8 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onToggle(View view) {
         // TODO: отслеживать повторное нажатие view.getId()
-        repeat[0] = "1";
+        ToggleButton tb = (ToggleButton) view;
+        repeat.add(tb.getText().toString());
     }
 
     private TextWatcher eTextDurationWatcher = new TextWatcher() {
@@ -168,8 +176,9 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
 
+            // TODO: при выборе иной даты, чем сегодня, вылетает на главный экран
             Calendar calendar = Calendar.getInstance();
-            calendar.set(dayOfMonth, monthOfYear);
+            calendar.set(year, monthOfYear, dayOfMonth);
             Date dateObj = calendar.getTime();
             SimpleDateFormat sdf = new SimpleDateFormat("d MMM");
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
@@ -192,11 +201,15 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.saveBtn: {
+                String name = eTextName.getText().toString();
+                if(name.equals("")) {
+                    eTextName.setError("Введите название задачи");
+                    return;
+                }
 
                 String termless;
                 String duration = null;
 
-                String name = eTextName.getText().toString();
                 String datetime = tvDateTime.getText().toString();
 
                 termless = (rGroup.getCheckedRadioButtonId() == R.id.rBTermless) ? "1" : "0"; // 0 - нет, 1 - да
@@ -204,7 +217,21 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
                     duration = eTextDuration.getText().toString();
                 }
 
-                task = new Task(name, datetime, duration, repeat, termless);
+                String days = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    days = String.join(" ", repeat);
+                }
+                else {
+                    StringBuilder sb = new StringBuilder();
+                    for (String s : repeat)
+                    {
+                        sb.append(s);
+                        sb.append(" ");
+                    }
+                    days = sb.toString();
+                }
+
+                Task task = new Task(name, datetime, duration, days, termless);
 
 
                 // Пересылка на главный экран
